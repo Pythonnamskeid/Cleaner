@@ -2,7 +2,6 @@
 import os
 import shutil
 import re
-#path = '/Users/BH/Desktop/downloads'
 
 def getpath():
 	path = input('full path to folder: ')
@@ -55,8 +54,6 @@ def sort_tv_show(path, show,pathtoshowfolder,file_endings,subtitle_endings):
 		for f in files:
 			m = pattern.search(f.lower())
 			if m:
-				#print('match')
-				#print(m.group(0),f.lower())
 				Filename, FileExt = os.path.splitext(os.path.join(root,f))
 				if FileExt in file_endings or subtitle_endings:
 					if root != pathtoshowfolder:
@@ -69,9 +66,18 @@ def create_folder_and_sort(pathtoshowfolder,show,file_endings,subtitle_endings):
 
 	showlist = show.lower().split()
 	reg = ''
-	for x in showlist:
-		reg += x + '[\s|.|-|\w*]*'
+	if len(showlist) == 1:
+		reg += show
+	else:
+		i = 0
+		for x in showlist:
+			if i == len(showlist) - 1:
+				reg += x
+			else:	
+				reg += x + '[\s|.|-]*'
+				i+=1
 
+	reg = '^' + reg 
 	pattern = re.compile(reg)
 	#print('creade folder and sort')
 	os.chdir(pathtoshowfolder)
@@ -112,7 +118,6 @@ def create_season_folders(path, pathtosortedfolder, show):
 		for f in files:
 			m = pattern.search(f.lower())
 			if m:
-				#print(m.group(0))
 				season = m.group()
 				if not os.path.exists(os.path.join(pathtosortedfolder,season)):
 					os.mkdir(os.path.join(pathtosortedfolder,season))
@@ -139,12 +144,21 @@ def move_episodes_to_season_folders(path,pathtosortedfolder,show):
 								print(os.path.join(root,d))
 
 #delete recently sorted folder
-def delete_unnecessary_folders(path,pathtoshowfolder,show,file_endings):
+def delete_unnecessary_folders(path,show,file_endings):
 	showlist = show.lower().split()
 	reg = ''
-	for x in showlist:
-		reg += x + '[\s|.|-|\w*]*'
+	if len(showlist) == 1:
+		reg += show
+	else:
+		i = 0
+		for x in showlist:
+			if i == len(showlist) - 1:
+				reg += x
+			else:	
+				reg += x + '[\s|.|-]*'
+				i+=1
 
+	reg = '^' + reg 
 	pattern = re.compile(reg)
 	os.chdir(path)
 	for root,dirs,files in os.walk(path):
@@ -159,7 +173,7 @@ def delete_unnecessary_folders(path,pathtoshowfolder,show,file_endings):
 
 def main():
 
-	ugly_endings = ['.nfo','.txt','.dat','.jpg','.png']
+	ugly_endings = ['.nfo','.txt','.dat','.jpg','.png','.sfv']
 	file_endings = ['.avi', '.mpg', '.mp4', '.mkv', '.m4v','.mp3']
 	subtitle_endings = ['.srt']
 
@@ -201,7 +215,7 @@ def main():
 
 	move_episodes_to_season_folders(path,pathtosortedfolder,show)
 
-	delete_unnecessary_folders(path,pathtoshowfolder,show,file_endings)
+	delete_unnecessary_folders(path,show,file_endings)
 
 
 
