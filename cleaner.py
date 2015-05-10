@@ -79,16 +79,13 @@ def create_folder_and_sort(pathtoshowfolder,show,file_endings,subtitle_endings):
 
 	reg = '^' + reg 
 	pattern = re.compile(reg)
-	#print('creade folder and sort')
 	os.chdir(pathtoshowfolder)
-	#print(os.getcwd())
 	pathtosortedfolder = ''
 	#the dir name will be the user input
 	if not os.path.exists(os.path.join(pathtoshowfolder,show)):
 		os.mkdir(show)
 		pathtosortedfolder = os.path.join(pathtoshowfolder,show)
 	else:
-		#print('folder exists')
 		pathtosortedfolder = os.path.join(pathtoshowfolder,show)
 
 	for root,dirs,files in os.walk(pathtoshowfolder):
@@ -204,9 +201,8 @@ def main():
 		if root == path:
 			file_list = list(files)
 			move_to_shows(path, file_list,file_endings)
-            #move lose shows in download folder to Shows root = download folder
-
-	#print("ugly endings should be gone and a show folder should be here")
+            
+ 
 	sort_tv_show(path, show, pathtoshowfolder,file_endings,subtitle_endings)
 
 	pathtosortedfolder = create_folder_and_sort(pathtoshowfolder,show,file_endings,subtitle_endings)
