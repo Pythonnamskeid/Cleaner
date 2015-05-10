@@ -2,7 +2,6 @@
 import os
 import shutil
 import re
-#path = '/Users/BH/Desktop/downloads'
 
 def getpath():
 	path = input('full path to folder: ')
@@ -12,7 +11,6 @@ def getpath():
 	else:
 		return path
 
-#Works
 def delete_ugly_endings(path, ugly_endings):
     for root,dirs,files in os.walk(path):   
         for f in files:
@@ -32,8 +30,8 @@ def move_to_shows(path,file_list,file_endings):
             pathfrom = os.path.join(path,x)
             shutil.move(pathfrom,pathto)
 
-#goes through all folders and finds show video files and moves them to Show folder
-def sort_tv_show(path, show,pathtoshowfolder,file_endings,subtitle_endings):
+#goes through all folders in root and moves matching shows to matching folder in Show folder
+def sort_tv_show(path, show, pathtoshowfolder,file_endings,subtitle_endings):
 
 	showlist = show.lower().split()
 	reg = ''
@@ -55,15 +53,14 @@ def sort_tv_show(path, show,pathtoshowfolder,file_endings,subtitle_endings):
 		for f in files:
 			m = pattern.search(f.lower())
 			if m:
-				#print('match')
-				#print(m.group(0),f.lower())
 				Filename, FileExt = os.path.splitext(os.path.join(root,f))
 				if FileExt in file_endings or subtitle_endings:
 					if root != pathtoshowfolder:
 						try:
 							shutil.move(os.path.join(root,f),pathtoshowfolder)
 						except:
-							print('tried to move from a folder within same folder, me so dumb')
+							print('tried to move from :', os.path.join(root,f))
+							print('to: ', pathtoshowfolder)
 				
 def create_folder_and_sort(pathtoshowfolder,show,file_endings,subtitle_endings):
 
@@ -82,7 +79,6 @@ def create_folder_and_sort(pathtoshowfolder,show,file_endings,subtitle_endings):
 		os.mkdir(show)
 		pathtosortedfolder = os.path.join(pathtoshowfolder,show)
 	else:
-		#print('folder exists')
 		pathtosortedfolder = os.path.join(pathtoshowfolder,show)
 
 	for root,dirs,files in os.walk(pathtoshowfolder):
@@ -185,14 +181,12 @@ def main():
 
 	#delete all .nfo, .jpg etc
 	delete_ugly_endings(path,ugly_endings)
-	#moves loose shows to Show folder
+
 	for root,dirs,files in os.walk(path):
 		if root == path:
 			file_list = list(files)
 			move_to_shows(path, file_list,file_endings)
-            #move lose shows in download folder to Shows root = download folder
 
-	#print("ugly endings should be gone and a show folder should be here")
 	sort_tv_show(path, show, pathtoshowfolder,file_endings,subtitle_endings)
 
 	pathtosortedfolder = create_folder_and_sort(pathtoshowfolder,show,file_endings,subtitle_endings)
