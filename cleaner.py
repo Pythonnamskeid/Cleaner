@@ -4,10 +4,10 @@ import shutil
 import re
 
 def getpath():
-	path = input('full path to folder: ')
+	path = input('Full path to folder: ')
 
 	if not os.path.isdir(path):
-		print('this program needs full path to folder: ')
+		print('This program needs full path to folder: ')
 	else:
 		return path
 
@@ -180,7 +180,7 @@ def main():
 		print("Path not valid. Exiting program")
 		return
 
-	show = input("name of show you want to sort: ")
+	show = input("Name of show you want to sort: ")
 
 	#change path, locate script in downloads folder
 	os.chdir(path)
