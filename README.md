@@ -18,4 +18,12 @@ The scripts goes through the following steps:
 7. Move video files to appropriate season folders. This works well with the format ...S02E13. Shows containing other formats for seasons and episodes will be unsorted in a folder with the same name as the show.
 8. Remove folders from download folder that previously contained the show you wanted to sort.
 
+An example of how to run the script:
 
+*python cleaner.py*
+
+*/path/to/downloads*
+
+*8 out of 10 cats*
+
+Now you should have something like *downloads/8 out of 10 cats*  containing all the video files and corresponding season files
