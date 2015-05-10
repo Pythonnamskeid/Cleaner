@@ -108,7 +108,6 @@ def create_season_folders(path, pathtosortedfolder, show):
 		for f in files:
 			m = pattern.search(f.lower())
 			if m:
-				#print(m.group(0))
 				season = m.group()
 				if not os.path.exists(os.path.join(pathtosortedfolder,season)):
 					os.mkdir(os.path.join(pathtosortedfolder,season))
